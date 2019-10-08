@@ -226,7 +226,7 @@ module Twitter
       def update_with_media(status, media, options = {})
         options = options.dup
         media_ids = pmap(array_wrap(media)) do |medium|
-          upload(medium)[:media_id]
+          upload(medium)
         end
         update!(status, options.merge(media_ids: media_ids.join(',')))
       end
