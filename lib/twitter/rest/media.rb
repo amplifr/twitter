@@ -21,7 +21,7 @@ module Twitter
       #   https://dev.twitter.com/rest/media/uploading-media for details.
       #   Possible values include tweet_image, tweet_gif, and tweet_video.
       def upload(file, options = {})
-        if file.size < CHUNKED_UPLOAD_THRESHOLD
+        if file.size < CHUNKED_UPLOAD_THRESHOLD && !(File.basename(file) =~ /\.mp4$/)
           upload_media_simple(file, options)
         else
           upload_media_chunked(file, options)
@@ -102,6 +102,7 @@ module Twitter
                                    command: 'INIT',
                                    media_type: 'video/mp4',
                                    total_bytes: file.size,
+                                   media_category: 'tweet_video',
                                    **options).perform
       end
 
